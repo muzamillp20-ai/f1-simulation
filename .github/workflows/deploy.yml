@@ -21,6 +21,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Detect repository name for base path
+        id: repo
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          echo "name=$REPO_NAME" >> $GITHUB_OUTPUT
+          echo "Repository name: $REPO_NAME"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -32,6 +39,20 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Verify build output
+        run: |
+          echo "=== Build output ==="
+          ls -la dist/
+          echo ""
+          echo "=== Checking index.html ==="
+          cat dist/index.html | grep -o 'src="[^"]*"' || echo "No src found"
+          cat dist/index.html | grep -o 'href="[^"]*css"' || echo "No CSS href found"
+          echo ""
+          echo "=== Assets directory ==="
+          ls -la dist/assets/ 2>/dev/null || echo "No assets directory"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -51,3 +72,9 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Comment deployment URL
+        if: success()
+        run: |
+          echo "✅ Deployment successful!"
+          echo "🌐 Live URL: ${{ steps.deployment.outputs.page_url }}"

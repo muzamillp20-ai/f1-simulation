@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/f1-racing-game/', // Replace 'f1-racing-game' with your actual GitHub repository name
+  base: '/f1-simulation/',
   server: {
     host: "0.0.0.0",
     port: 3000,
