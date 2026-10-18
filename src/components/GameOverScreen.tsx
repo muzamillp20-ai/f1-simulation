@@ -1,11 +1,13 @@
 interface GameOverScreenProps {
   score: number;
+  coins: number;
   highScore: number;
+  totalCoins: number;
   onRestart: () => void;
   onMenu: () => void;
 }
 
-export default function GameOverScreen({ score, highScore, onRestart, onMenu }: GameOverScreenProps) {
+export default function GameOverScreen({ score, coins, highScore, totalCoins, onRestart, onMenu }: GameOverScreenProps) {
   const isNewHighScore = score >= highScore && score > 0;
 
   return (
@@ -44,9 +46,19 @@ export default function GameOverScreen({ score, highScore, onRestart, onMenu }: 
             <p className="text-gray-400 text-sm font-semibold uppercase tracking-wider">Your Score</p>
             <p className="text-4xl md:text-5xl font-black text-white mt-1">{score.toLocaleString()}</p>
           </div>
-          <div className="border-t border-gray-700 pt-4 text-center">
-            <p className="text-gray-400 text-sm font-semibold uppercase tracking-wider">🏆 Best Score</p>
-            <p className="text-2xl font-black text-yellow-400 mt-1">{highScore.toLocaleString()}</p>
+          <div className="border-t border-gray-700 pt-4 mb-4">
+            <div className="flex justify-between items-center mb-3">
+              <p className="text-gray-400 text-sm font-semibold uppercase tracking-wider">🪙 Coins</p>
+              <p className="text-2xl font-black text-amber-400">+{coins}</p>
+            </div>
+            <div className="flex justify-between items-center border-t border-gray-700 pt-3">
+              <p className="text-gray-400 text-sm font-semibold uppercase tracking-wider">🏆 Best Score</p>
+              <p className="text-xl font-black text-yellow-400">{highScore.toLocaleString()}</p>
+            </div>
+            <div className="flex justify-between items-center border-t border-gray-700 pt-3 mt-3">
+              <p className="text-gray-400 text-sm font-semibold uppercase tracking-wider">💰 Total Coins</p>
+              <p className="text-xl font-black text-amber-300">{totalCoins.toLocaleString()}</p>
+            </div>
           </div>
         </div>
 
